@@ -42,7 +42,7 @@ function App() {
       const res = await axios.post(`${VITE_API_BASE}/admin/signin`, formData);
       console.log(res.data);
     } catch (error) {
-      console.log(error.res);
+      console.log(error.response);
     }
   }
 
