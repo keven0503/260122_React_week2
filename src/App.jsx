@@ -12,8 +12,8 @@ const API_PATH = import.meta.env.VITE_API_PATH;
 function App() {
   //解構相關的內容
   const [formData,setFormData] = useState({
-    username: 'keven0503@hotmail.com',
-    password: 'EbaimA0821',
+    username: '',
+    password: '',
   });
   const [isAuth,setIsAuth] = useState(false);  //boolean
   const [products,setProducts] = useState([]);
