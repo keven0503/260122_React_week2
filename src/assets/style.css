@@ -5,3 +5,15 @@
   justify-content: center;
   height: 100vh;
 }
+
+  img {
+      object-fit: contain;
+      max-width: 100%;
+  }
+  .card-height{
+      height: 100px;
+  }
+  .images {
+  height: 150px;
+  margin-right: 5px; /* 加點邊距 */
+  }
