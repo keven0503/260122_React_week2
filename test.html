@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <div>
+        <input type="email" id="email">
+        <input type="password" id="password">
+        <button type="button" id="login">登入</button>
+    </div>
+
+    <div>
+    <button type="button" id="check">確認是否登入</button>
+    </div>
+
+    <script>
+        const url = 'https://ec-course-api.hexschool.io/v2'; //六角api網域，加上一定會有的v2路徑
+
+        const emailInput = document.querySelector('#email');
+        const pwInput = document.querySelector('#password');
+        const loginBtn = document.querySelector('#login');
+        const checkBtn = document.querySelector('#check');
+
+        //登入
+        loginBtn.addEventListener('click', login);
+        async function login(){
+            console.log('async有啟動');
+            try {
+                const email = emailInput.value;
+                const pw = pwInput.value;
+                const data = {
+                    username: email,
+                    password: pw
+                }
+
+                //post請求，post請求登入API
+                const res = await axios.post(`${url}/admin/signin`, data);
+                console.log(res.data);
+
+                //把token存在cookie
+                const {expired,token} = res.data;
+                document.cookie = `customName=${token}; expires=${new Date(expired)};`;
+
+            } catch (error) {
+                console.log(error.response);
+            }
+        }
+
+        //驗證 START
+        checkBtn.addEventListener('click', checkLogin);
+        async function checkLogin() {
+            //取得token
+            const token = document.cookie.replace(
+                /(?:(?:^|.*;\s*)customName\s*=\s*([^;]*).*$)|^.*$/,
+                "$1",
+            );
+            console.log(token);
+
+            
+            //把token帶入後post請求至驗證用API
+            const res = await axios.post(`${url}/api/user/check`,  null,{
+                headers: {
+                authorization: token
+                }
+            });
+            console.log(res);
+        }
+
+
+    </script>
+</body>
+</html>
